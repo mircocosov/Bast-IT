@@ -13,4 +13,12 @@ export class HouseService {
   async getHouse(): Promise<House | null> {
     return this.houseRepository.findOne({ where: {} });
   }
+
+  async findAll(): Promise<House[]> {
+    return this.houseRepository.find();
+  }
+
+  async findOneById(id: number): Promise<House | null> {
+    return this.houseRepository.findOne({ where: { id } });
+  }
 } 

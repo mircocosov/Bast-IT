@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
 import { HouseService } from './house.service';
 import { House } from './house.entity';
 
@@ -12,5 +12,17 @@ export class HouseController {
       throw new Error('findAll method not implemented in HouseService');
     }
     return await this.houseService['findAll']();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<House> {
+    if (typeof this.houseService['findOneById'] !== 'function') {
+      throw new Error('findOneById method not implemented in HouseService');
+    }
+    const house = await this.houseService['findOneById'](Number(id));
+    if (!house) {
+      throw new NotFoundException('House not found');
+    }
+    return house;
   }
 } 
